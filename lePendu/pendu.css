@@ -45,3 +45,7 @@ button {
 #keyBoard div:hover {
     cursor: pointer;
 }
+
+.cptErreur {
+    height: 20px;
+}
