@@ -5,8 +5,7 @@ TODO :
     - Pouvoir proposer des lettres  ==> Ok
     - Afficher les lettres trouvées ==> Ok
     - Gérer un nombre d'erreurs max ==> Ok
-    - Gérer la victoire
-    - Afficher des lettres visibles (En fonction de la diffulté choisie)
+    - Gérer la victoire ==> Ok
 */ 
 
 
@@ -15,9 +14,11 @@ const allWords = ['fleur', 'montagne', 'ministre', 'congolais', 'constitution', 
 const buttonPlay = document.getElementById("beginGame");
 const wordToFindDiv = document.getElementById("wordToFindDiv");
 const keyBoardDiv = document.getElementById("keyBoard");
+const cptErreurDiv = document.getElementById('cptErreur');
 let getWord;
 let wordTofindArray;
 let cptErreur;
+let cptLettreTrouvee;
 
 buttonPlay.addEventListener("click", function() {
     beginGame();
@@ -25,7 +26,8 @@ buttonPlay.addEventListener("click", function() {
 
 function beginGame() {
     cptErreur = 0;
-    document.getElementById("cptErreur").innerHTML = "";
+    cptLettreTrouvee = 0;
+    cptErreurDiv.innerHTML = "";
     //Delete le mot trouvé à chaque début de partie
     wordToFindDiv.innerHTML = '';
     //Générer un mot au hasard de la liste allWords ..
@@ -51,6 +53,7 @@ function beginGame() {
 
 function generateKeyBoard () {
     keyBoardDiv.innerHTML = "";
+    keyBoardDiv.style.visibility = "visible";
     let Alphabet = generateAlphabet(true);
     Alphabet.forEach(letter => {
         let lettreDiv = document.createElement("div");
@@ -67,20 +70,28 @@ function generateKeyBoard () {
                 Array.from(allTdOfWord).forEach(td => {
                     if(td.dataset.letter == letter) {
                         td.innerHTML = letter
+                        cptLettreTrouvee++
                     }
                 })
+
+                if(cptLettreTrouvee == wordTofindArray.length) {
+                    keyBoardDiv.innerHTML = '';
+                    cptErreurDiv.innerHTML = 'Gagné, en ' + cptErreur + ' coups !';
+                }
+
             }
             else{
                 //Incrémenter le compteur d'erreurs
                 cptErreur ++;
-                document.getElementById('cptErreur').innerHTML = "Nombre d'erreurs: " + cptErreur;
-                if(cptErreur >= 5) {
-                    document.getElementById("cptErreur").innerHTML = "Perdu, vous avez fait plus de 5 erreurs !";
+                cptErreurDiv.innerHTML = "Nombre d'erreurs: " + cptErreur;
+                if(cptErreur >= 7) {
+                    cptErreurDiv.innerHTML = "Perdu, vous avez fait " + cptErreur + " erreurs !";
                     let lineWord = document.getElementById("LineOfWord");
                     let allTdOfWord = lineWord.children;
                     Array.from(allTdOfWord).forEach(td => {
                     td.innerHTML = td.dataset.letter;
                     });
+                    keyBoardDiv.style.visibility = "hidden";
                 }
             }
 
