@@ -16,31 +16,40 @@ V2 :
 const reboursDiv = document.getElementById("minuteur");
 const calculDiv = document.getElementById("calcul");
 const propalInput = document.getElementById("resultPropal");
+const messengerDiv = document.getElementById("messenger");
 
-const tempsMinuteurBase = 5;
+const tempsMinuteurBase = 10;
 let compteurInterval = null;
-let tempsRestant = 0;
+let tempsRestant = 0;3121
 let calculEnCours = null;
 
 function launchGame() {
     lancerMinuteur(tempsMinuteurBase);
+    generateCalcul();
 }
 
 function generateCalcul() {
-    calculEnCours = new Calcul(500);
+    calculEnCours = new Calcul(20);
     calculDiv.innerText = calculEnCours.showCalcul;
+    propalInput.value = "";
 }
 
 document.getElementById('validPropal').addEventListener('click', () => {
     if(calculEnCours.result == propalInput.value) {
-        alert('GG !')
+        let tempsPourGagner = tempsMinuteurBase - tempsRestant; 
+        messengerDiv.innerText = "GG ! Vous avez gagner en " + tempsPourGagner + " secondes" ;
+        clearInterval(compteurInterval);
+        reboursDiv.innerText = "";
+
     }
     else {
-        alert('Nop !')
+        messengerDiv.innerText = "NOP !";
+
     }
 })
 
 function lancerMinuteur(tempsMinuteurBase) {
+    clearInterval(compteurInterval);
     tempsRestant = tempsMinuteurBase;
     reboursDiv.innerText = (tempsRestant);
     compteurInterval = setInterval(() => {

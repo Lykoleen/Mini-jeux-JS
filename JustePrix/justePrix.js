@@ -1,3 +1,4 @@
+import { Utils } from "../lib/utils.js";
 
 let NumberToFind = 0;
 const resultDiv = document.getElementById("resultDiv");
@@ -9,7 +10,7 @@ let compteurInterval = null;
 //Récupérer un chiffre aléatoire
 //Lancer la partie
 document.getElementById("beginGame").addEventListener("click", function (){
-    NumberToFind = getRandomInt(1000);
+    NumberToFind = Utils.getRandomInt(1000);
     console.log(NumberToFind);
     tempRestant = 30;
     contentBeginGame.innerText = "Zééébartyyy.."
@@ -45,10 +46,6 @@ document.getElementById("userPropalInput").addEventListener("keyup", function(ev
     }
     
 });
-
-function getRandomInt(max) {
-    return Math.floor(Math.random() * max);
-}
 
 function checkPropal() {
     let numberPropal = document.getElementById("userPropalInput").value;
